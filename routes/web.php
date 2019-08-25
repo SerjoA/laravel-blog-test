@@ -11,8 +11,11 @@
 |
 */
 
+use App\PermissionConstants;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
 
 Route::get('/', function () {
 	return view('welcome');
@@ -41,11 +44,19 @@ Route::group([
 });
 
 
-//Route::get('add-permission', function() {
-//	Permission::create([
-//		'name' => 'can-read-post'
-//	]);
-//
-//	$user = User::find(2);
-//	$user->givePermissionTo('can-read-post');
-//});
+Route::get('temp-seeder', function () {
+
+	Permission::create([
+		'name' => PermissionConstants::CAN_ADD_POST
+	]);
+
+	$user = User::find(1);
+	$user->givePermissionTo(PermissionConstants::CAN_ADD_POST);
+
+	Permission::create([
+		'name' => PermissionConstants::CAN_READ_POST
+	]);
+
+	$user = User::find(2);
+	$user->givePermissionTo(PermissionConstants::CAN_READ_POST);
+});

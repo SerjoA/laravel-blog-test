@@ -48,8 +48,6 @@ class PostController extends Controller {
 	public function view($postId) {
 		$post = Post::findOrFail($postId);
 
-//		$isFollowingPost = Follow::query()->where('user_id', Auth::user()->id)->get();
-//		$isLikingPost = Like::query()
 		return view('posts.view', compact('post'));
 	}
 

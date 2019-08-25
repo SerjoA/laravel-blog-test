@@ -10,4 +10,7 @@ class Post extends Model {
 		'body',
 	];
 
+	public function user() {
+		$this->belongsTo(User::class);
+	}
 }
