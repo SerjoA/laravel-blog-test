@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller {
+
 	private $request;
 
 	public function __construct(Request $request) {
@@ -19,6 +20,31 @@ class PostController extends Controller {
 	}
 
 	public function add() {
-		return view('posts.create');
+		return view('posts.add');
+	}
+
+	public function create() {
+		$request = $this->request;
+
+		$this->validate($request, [
+			'title' => 'required|string',
+			'body' => 'required|string'
+		]);
+
+		$title = $request->input('title');
+		$body = $request->input('body');
+
+		Post::create([
+			'title' => $title,
+			'body' => $body,
+		]);
+
+		return redirect()->route('posts.index');
+	}
+
+	public function view($postId) {
+		$post = Post::findOrFail($postId);
+
+		return view('posts.view', compact('post'));
 	}
 }

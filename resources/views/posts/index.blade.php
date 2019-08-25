@@ -6,8 +6,9 @@
 
       <ul>
          @foreach($posts as $post)
-            <div class="post-title">{{ $post->title }}</div>
-            <div class="post-body">{!! $post->body  !!} </div>
+            <li class="post-title">
+               <a href="{{ route('posts.view', ['postId' => $post->id]) }}">{{ $post->title }}</a>
+            </li>
          @endforeach
       </ul>
    </div>
