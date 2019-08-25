@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Follow;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller {
 
@@ -45,6 +48,30 @@ class PostController extends Controller {
 	public function view($postId) {
 		$post = Post::findOrFail($postId);
 
+//		$isFollowingPost = Follow::query()->where('user_id', Auth::user()->id)->get();
+//		$isLikingPost = Like::query()
 		return view('posts.view', compact('post'));
+	}
+
+	public function like($postId) {
+		$currentUserId = Auth::user()->id;
+
+		Like::updateOrCreate([
+			'user_id' => $currentUserId,
+			'post_id' => $postId
+		]);
+
+		return redirect()->route('posts.view', ['postId' => $postId]);
+	}
+
+	public function follow($postId) {
+		$currentUserId = Auth::user()->id;
+
+		Follow::updateOrCreate([
+			'user_id' => $currentUserId,
+			'post_id' => $postId
+		]);
+
+		return redirect()->route('posts.view', ['postId' => $postId]);
 	}
 }

@@ -22,27 +22,30 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/posts', 'PostController@index')->name('posts.index');
-Route::get('/posts/{postId}', 'PostController@view')->name('posts.view');
+Route::group([
+	'middleware' => 'permission:can-add-post',
+	'prefix' => 'posts'
+], function () {
+	Route::get('/add', 'PostController@add')->name('posts.add');
+	Route::get('/create', 'PostController@create')->name('posts.create');
+});
 
 Route::group([
-	'prefix' => 'posts',
-	'permission' => 'can-add-post'
+	'prefix' => 'posts'
 ], function () {
-
-	Route::get('/add', 'PostController@add')
-		->name('posts.add');
-
-	Route::get('/create', 'PostController@create')
-		->name('posts.create');
+	Route::get('/', 'PostController@index')->name('posts.index');
+	Route::get('/{postId}', 'PostController@view')->name('posts.view');
+	Route::get('/like/{postId}', 'PostController@like')->name('posts.like');
+	Route::get('/follow/{postId}', 'PostController@follow')->name('posts.follow');
 
 });
 
+
 //Route::get('add-permission', function() {
 //	Permission::create([
-//		'name' => 'can-add-post'
+//		'name' => 'can-read-post'
 //	]);
 //
-//	$user = User::find(1);
-//	$user->givePermissionTo('can-add-post');
+//	$user = User::find(2);
+//	$user->givePermissionTo('can-read-post');
 //});

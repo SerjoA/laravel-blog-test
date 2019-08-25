@@ -54,6 +54,13 @@
                                    href="{{ route('posts.index') }}" aria-haspopup="true" aria-expanded="false">
                                     Posts
                                 </a>
+
+                                @can('can-add-post')
+                                    <a class="nav-link"
+                                       href="{{ route('posts.add') }}" aria-haspopup="true" aria-expanded="false">
+                                        Add Post
+                                    </a>
+                                @endcan
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
